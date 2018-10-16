@@ -26,7 +26,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      adHref:'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20180916151543_13739'
+      adHref:'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20180916151543_13739&fromSubsystem=MID_AUTUMN'
     };
   },
   created() {
@@ -46,6 +46,8 @@ export default {
           {
             platform: 2,
             point_code: code,
+            user_mark:window.openId,
+            customer_id:window.customerId,
             created_time: new Date().getTime()
           },
           { headers: { "Content-Type": "application/json" } }
@@ -141,12 +143,12 @@ export default {
   bottom: 0;
 }
 .banner {
-    position: absolute;
-    bottom: 0;
+  position: absolute;
+  bottom: 0;
   padding-top: 2.48rem;
   width: 100vw;
-  height: 2.04rem;
-  background: url("../../static/img/ad.png") no-repeat;
+  height: 2.10rem;
+  background: url("../../static/img/ad1.png") no-repeat;
   background-position-x: 0;
   background-position-y: 2.48rem;
   background-size:100% auto;

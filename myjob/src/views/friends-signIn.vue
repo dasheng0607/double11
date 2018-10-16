@@ -57,7 +57,7 @@ export default {
       today: "",
       prizeName: "",
       openId: window.openId,
-      signOpenId: this.$route.query.openId,
+      signOpenId: this.$route.query.taropenId,
       signDateList: [],
       signRecords: [],
       newArr: []
@@ -83,6 +83,8 @@ export default {
           axios.post(process.env.SET_DOT, {
             "platform": 2,
             "point_code":code,
+            "customer_id":window.customerId,
+            "user_mark":window.openId,
             "created_time": (new Date()).getTime()
             },{headers: {'Content-Type':'application/json'}})
             .then( (response) => {

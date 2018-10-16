@@ -54,14 +54,13 @@ export default {
     return {
       myImg:decodeURIComponent(this.$route.query.imgUrl),
       mark: false,
-      openId: this.$route.query.openId,
+      openId: this.$route.query.taropenId,
       lightNo: this.$route.query.lightNo,
       text:
         "补签成功<br/>喜提XXX<br/>抢C位邀请好友打CALL,<br/>即可赢取中秋甄选好礼！",
       text2: "赢中秋团圆礼~",
       btnText: "我也要抢C位",
       userData: {},
-      friendCanSave: false,
       reword: {
         prizeName: ""
       },
@@ -93,6 +92,8 @@ export default {
           {
             platform: 2,
             point_code: code,
+            user_mark:window.openId,
+            customer_id:window.customerId,
             created_time: new Date().getTime()
           },
           { headers: { "Content-Type": "application/json" } }

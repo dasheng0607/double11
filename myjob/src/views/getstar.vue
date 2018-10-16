@@ -74,12 +74,12 @@ export default {
   methods: {
     myShare(){
       wxShowMenu.wxShowMenu({
-        title1: window.user.nickname + '正在抢C位，帮我一起夺C位，赢中秋礼，点击开抢！', // 分享标题
+        title1: '我正在抢C位，一起来抢夺C位，赢中秋礼，点击开奖！', // 分享标题
         title2: '这个中秋我要C位出道', // 分享标题
         desc1: '帮我抢C位，一起抢中秋礼，点击开抢', //分享描述
         desc2: '帮我抢C位，一起抢中秋礼，点击开抢！', //分享描述
-        link1: window.location.origin + process.env.ROATER + '/#/friendStar' + '?imgUrl='+encodeURIComponent(this.myImg)+'&openId=' +window.openId +'&lightNo=' +this.userData.lightNo,// 分享链接
-        link2: window.location.origin + process.env.ROATER + '/#/friendStar' + '?imgUrl='+encodeURIComponent(this.myImg)+'&openId=' +window.openId  +'&lightNo=' +this.userData.lightNo,// 分享链接
+        link1: window.location.origin + process.env.ROATER + '/#/friendStar' + '?imgUrl='+encodeURIComponent(this.myImg)+'&taropenId=' +window.openId +'&lightNo=' +this.userData.lightNo,// 分享链接
+        link2: window.location.origin + process.env.ROATER + '/#/friendStar' + '?imgUrl='+encodeURIComponent(this.myImg)+'&taropenId=' +window.openId  +'&lightNo=' +this.userData.lightNo,// 分享链接
       },() =>{
         // 判断是不是最后点击月亮分享
         this.sendDot('B000020401');
@@ -92,16 +92,17 @@ export default {
               axios
               .post(
                 '/qxby/api/ticket/exchangePrize',
-                {
-                  openId: 2,
+                qs.stringify({
+                  openId: window.openId,
                   customerId: this.customerId,
                   winnerId: this.winnerId,
                   accessToken:data.accessToken
-                },
-                { headers: { "Content-Type": "application/json" } }
+                }),
+                { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
               )
               .then(response => {
                 console.log(response);
+                this.showPop = false;
               })
               .catch(error => {
                 console.log(error);
@@ -121,6 +122,8 @@ export default {
           {
             platform: 2,
             point_code: code,
+            user_mark:window.openId,
+            customer_id:window.customerId,
             created_time: new Date().getTime()
           },
           { headers: { "Content-Type": "application/json" } }
@@ -147,10 +150,17 @@ export default {
             arr[element.position] = element.headImage;
           });
           this.starList = arr;
-          if (response.data.data.lightRecords.length === 7) {
+          if (response.data.data.isDraw) {
             this.successBtn = true;
           } else {
             this.successBtn = false;
+          }
+          if(response.data.data.isPrize){
+            this.text =
+              "太棒了！<br/>参与集七星祝福<br/>获得中秋甄选好礼" +
+              response.data.data.prizeName;
+            this.showPop = true;
+            this.winnerId = response.data.data.winnerId;
           }
           this.userData = Object.assign({}, this.userData, response.data.data);
           this.myShare();
@@ -344,7 +354,7 @@ export default {
   right: 0;
   bottom: 0;
   background: url("../../static/img/shareFriend.png") no-repeat center 0px fixed;
-  background-size: 100vw 100vh;
+  background-size: 100% 100%;
   /* background-color: #000; */
 }
 </style>
