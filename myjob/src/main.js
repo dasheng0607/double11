@@ -14,12 +14,12 @@ fastclick.attach(document.body);
 //提交用户信息
 axios
   .post(
-    "/qxby/api/member/addMember",
+    "/goodscall/api/member/addMember",
     qs.stringify({
-      openId: window.openId,
+      openId: window.openId || 123,
       customerId: window.customerId,
-      headImageUrl: window.user.headimgurl,
-      nickName: window.user.nickname
+      headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
+      nickName: window.user.nickname || 'test'
     })
   )
   .then(function (data) {

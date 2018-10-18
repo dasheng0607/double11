@@ -11,8 +11,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/qxby/*': {
-        target: 'https://java.howjoin.com',
+      '/goodscall/*': {
+        target: 'http://java.howjoin.com',
         secure: false,
         changeOrigin: true,
       }

@@ -14,46 +14,10 @@ Vue.use(Router)
 const my_router = new Router({
   routes: [
     {
-      path: '/index',
-      name: 'index',
-      // component: index
-      component: resolve => require(['@/views/index'], resolve),
-    },
-    {
       path: '/index2',
       name: 'index2',
       // component: index
       component: resolve => require(['@/views/index2'], resolve),
-    },
-    {
-      path: '/signIn',
-      name: 'SignIn',
-      // component: SignIn
-      component: resolve => require(['@/views/signIn'], resolve),
-    },
-    {
-      path: '/friendSignIn',
-      name: 'friendSignIn',
-      // component: FriendSignIn
-      component: resolve => require(['@/views/friends-signIn'], resolve),
-    },
-    {
-      path: '/winningRecord',
-      name: 'WinningRecord',
-      // component: WinningRecord
-      component: resolve => require(['@/views/winningRecord'], resolve),
-    },
-    {
-      path: '/getstar',
-      name: 'getstar',
-      // component: getstar
-      component: resolve => require(['@/views/getstar'], resolve),
-    },
-    {
-      path: '/friendStar',
-      name: 'friendstar',
-      // component: friendstar
-      component: resolve => require(['@/views/friends-star'], resolve),
     },
     {
       path: '/rules',
@@ -62,14 +26,8 @@ const my_router = new Router({
       component: resolve => require(['@/views/rules'], resolve),
     },
     {
-      path: '/back',
-      name: 'back',
-      // component: back
-      component: resolve => require(['@/views/back'], resolve),
-    },
-    {
       path: '*',
-      redirect:'/index'
+      redirect:'/index2'
     }
   ]
 })
