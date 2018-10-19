@@ -14,8 +14,8 @@ Vue.use(Router)
 const my_router = new Router({
   routes: [
     {
-      path: '/index2',
-      name: 'index2',
+      path: '/index',
+      name: 'index',
       // component: index
       component: resolve => require(['@/views/index2'], resolve),
     },
@@ -27,7 +27,7 @@ const my_router = new Router({
     },
     {
       path: '*',
-      redirect:'/index2'
+      redirect:'/index'
     }
   ]
 })

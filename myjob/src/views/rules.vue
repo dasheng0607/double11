@@ -16,8 +16,13 @@ export default {
   mounted() {},
   methods: {
     back(){
+      let query ={};
+     for (const key in this.$route.query) {
+       query[key] = this.$route.query[key];
+     }
       this.$router.push({
             name:'index2',
+            query
           }); 
     }
   }

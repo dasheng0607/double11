@@ -12,8 +12,8 @@
           </div>
         </div>
         <div class="ways"></div>
-        <div class="commodity" v-for="(item,index) in list" :key="index">
-          <div class="news">
+        <div class="commodity" v-for="(item,index) in list" :key="index" v-bind:style="{ 'background-color': !(index % 2) ?'':'#fff'  }">
+          <div class="news" @click="toNews(item.link)">
             <div class="com-l" v-bind:class="{ 'go-r': index % 2}">
               <div class="l-name">
                 <span class="l-text1">{{item.name}}</span>
@@ -23,7 +23,7 @@
               <div class="new-price">{{item.priceActivity}}元</div>
               <div class="tip-money"></div>
             </div>
-            <div class="com-r"></div>
+            <div class="com-r"  v-bind:style="{ 'margin-left': !(index % 2) ?'':'0.3rem'  }"></div>
           </div>
           <div class="process">
             <div class="process-top" v-bind:style="{ left: dealLeft(item.actualPopularity) }">
@@ -39,13 +39,13 @@
             <div class="process-arrow3">
             </div>
             <div class="process-price1">
-              ￥143
+              ￥{{item.price}}
             </div>
             <div class="process-price2">
-              ￥99
+              ￥{{item.priceList[0].prices}}
             </div>
             <div class="process-price3">
-              ￥86
+              ￥{{item.priceList[1].prices}}
             </div>
           </div>
           <div class="isclick to-click" v-if="!item.state" @click="cutOne(item)"></div>
@@ -63,6 +63,7 @@
 
 <script>
 import axios from "axios";
+import wxShowMenu from "../../static/js/share.js";
 import qs from "qs";
 // import { setInterval } from 'timers';
 export default {
@@ -77,249 +78,31 @@ export default {
      },
      votes: 9,
     // 中间的内容
-    list:[
-        {
-            "priceActivity":109,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814512826.jpg",
-            "price":156,
-            "name":"葡萄籽片 14250mg 180片",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124128&terminalCode=912849",
-            "id":1,
-            "state":1,
-            "actualPopularity":3001,
-            "spec":"红润美肌“小能手”",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"128"
-                },
-                {
-                    "number":"3000",
-                    "prices":"109"
-                }
-            ]
-        },
-        {
-            "priceActivity":89,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814523109.jpg",
-            "price":114,
-            "name":"高浓度蔓越莓胶囊 25000mg 30粒",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124121&terminalCode=912849",
-            "id":2,
-            "state":1,
-            "actualPopularity":1116,
-            "spec":"呵护女性秘密花园",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"89"
-                },
-                {
-                    "number":"3000",
-                    "prices":"79"
-                }
-            ]
-        },
-        {
-            "priceActivity":132,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814536071.jpg",
-            "price":132,
-            "name":"儿童钙+维生素D3胶囊 50粒",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=127803&terminalCode=912849",
-            "id":3,
-            "state":0,
-            "actualPopularity":3,
-            "spec":"长高高的小秘密",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"99"
-                },
-                {
-                    "number":"3000",
-                    "prices":"89"
-                }
-            ]
-        },
-        {
-            "priceActivity":80,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814545823.jpg",
-            "price":80,
-            "name":"Ultiboost补铁片 30片",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=153406&terminalCode=912849",
-            "id":4,
-            "state":0,
-            "actualPopularity":0,
-            "spec":"有效补铁 孕期可用",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"65"
-                },
-                {
-                    "number":"3000",
-                    "prices":"59"
-                }
-            ]
-        },
-        {
-            "priceActivity":131,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814545397.jpg",
-            "price":131,
-            "name":"儿童益生菌片 40片",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=127903&terminalCode=912849",
-            "id":5,
-            "state":0,
-            "actualPopularity":2,
-            "spec":"守护孩子肚肚的小卫士",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"98"
-                },
-                {
-                    "number":"3000",
-                    "prices":"69"
-                }
-            ]
-        },
-        {
-            "priceActivity":131,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814556545.jpg",
-            "price":131,
-            "name":"儿童复合维生素片 120片 /瓶",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124135&terminalCode=912849",
-            "id":6,
-            "state":0,
-            "actualPopularity":0,
-            "spec":"给挑食宝宝均衡的爱",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"99"
-                },
-                {
-                    "number":"3000",
-                    "prices":"89"
-                }
-            ]
-        },
-        {
-            "priceActivity":132,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814573494.jpg",
-            "price":132,
-            "name":"儿童益智DHA胶囊 30粒",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=152609&terminalCode=912849",
-            "id":7,
-            "state":0,
-            "actualPopularity":2,
-            "spec":"DHA有助大脑发育",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"109"
-                },
-                {
-                    "number":"3000",
-                    "prices":"89"
-                }
-            ]
-        },
-        {
-            "priceActivity":68,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814585683.jpg",
-            "price":68,
-            "name":"深海保湿调节喷雾 125ML",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124127&terminalCode=912849",
-            "id":8,
-            "state":0,
-            "actualPopularity":0,
-            "spec":"滋养肌肤 补充水分",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"54"
-                },
-                {
-                    "number":"3000",
-                    "prices":"49"
-                }
-            ]
-        },
-        {
-            "priceActivity":133,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814589235.jpg",
-            "price":133,
-            "name":"摩洛哥坚果眼霜 15ml",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=117932&terminalCode=912849",
-            "id":9,
-            "state":0,
-            "actualPopularity":2,
-            "spec":"紧致保湿 淡化黑眼圈",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"99"
-                },
-                {
-                    "number":"3000",
-                    "prices":"59"
-                }
-            ]
-        },
-        {
-            "priceActivity":176,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814599340.jpg",
-            "price":176,
-            "name":"镁钙维生素D3片 120片",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=137204&terminalCode=912849",
-            "id":10,
-            "state":0,
-            "actualPopularity":0,
-            "spec":"镁+钙科学搭配易吸收",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"119"
-                },
-                {
-                    "number":"3000",
-                    "prices":"99"
-                }
-            ]
-        },
-        {
-            "priceActivity":220,
-            "img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814593465.jpg",
-            "price":220,
-            "name":"孕期叶酸+复合维生素胶囊（含500mcg叶酸）90粒 /瓶",
-            "link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124106&terminalCode=912849",
-            "id":11,
-            "state":0,
-            "actualPopularity":2,
-            "spec":"孕期营养“好装备”",
-            "priceList":[
-                {
-                    "number":"1000",
-                    "prices":"159"
-                },
-                {
-                    "number":"3000",
-                    "prices":"109"
-                }
-            ]
-        }
-    ],
+    list:[],
     totalGoodsLink:'',
-    newGiftLink:''
+    newGiftLink:'',
+    endData:''
     };
   },
   created() {
-      setInterval(this.getDate,1000);
       this.getData();
       this.sendDot('B000040100');
+      this.myShare();
   },
   methods: {
+    myShare(){
+      wxShowMenu.wxShowMenu({
+        title1: 'Swisse嗨购预热', // 分享标题
+        title2: '一起来砍价吧', // 分享标题
+        desc1: 'Pick出心头好 邀好友一起砍出11.11低价', //分享描述
+        desc2: 'Pick出你的心头好 和我一起砍价11.11低价', //分享描述
+        link1: window.location.origin + process.env.ROATER + '/#/index',// 分享链接
+        link2: window.location.origin + process.env.ROATER + '/#/index',// 分享链接
+      },() =>{
+        // 判断是不是最后点击月亮分享
+        this.sendDot('B000040101');
+      })
+    },
     getData(){
       axios
         .post(
@@ -333,6 +116,8 @@ export default {
           this.list = data.data.data.productList || [];
           this.totalGoodsLink = data.data.data.totalGoodsLink;
           this.newGiftLink = data.data.data.newGiftLink;
+          this.endData = Date.parse(new Date(data.data.data.endStr));
+          setInterval(this.getDate,1000);
         })
         .catch(function (error) {
           console.log(error);
@@ -361,11 +146,28 @@ export default {
     },
     toUrl(url,num){
       if(!url) return;
+      let tarUrl = url;
+      if(this.$route.query.assisAccount) tarUrl += ('&assisAccount=' + this.$route.query.assisAccount);
+      if(this.$route.query.termCode) tarUrl += ('&termCode=' + this.$route.query.termCode);
+      if(this.$route.query.guiderSourceSystem) tarUrl += ('&guiderSourceSystem=' + this.$route.query.guiderSourceSystem);
+      if(this.$route.query.guiderSourceBusiness) tarUrl += ('&guiderSourceBusiness=' + this.$route.query.guiderSourceBusiness);
+      if(this.$route.query.guiderBusinessId) tarUrl += ('&guiderBusinessId=' + this.$route.query.guiderBusinessId);
+      if(this.$route.query.fromSubsystem) tarUrl += ('&fromSubsystem=' + this.$route.query.fromSubsystem);
       if(num ==1){
-        this.sendDot('B000042100',function(){window.location.href = url;})
+        this.sendDot('B000040122',function(){window.location.href = tarUrl;})
       } else {
-        this.sendDot('B000042200',function(){window.location.href = url;})
+        this.sendDot('B000040121',function(){window.location.href = tarUrl;})
       }
+    },
+    toNews(url){
+      let tarUrl = url;
+      if(this.$route.query.assisAccount) tarUrl += ('&assisAccount=' + this.$route.query.assisAccount);
+      if(this.$route.query.termCode) tarUrl += ('&termCode=' + this.$route.query.termCode);
+      if(this.$route.query.guiderSourceSystem) tarUrl += ('&guiderSourceSystem=' + this.$route.query.guiderSourceSystem);
+      if(this.$route.query.guiderSourceBusiness) tarUrl += ('&guiderSourceBusiness=' + this.$route.query.guiderSourceBusiness);
+      if(this.$route.query.guiderBusinessId) tarUrl += ('&guiderBusinessId=' + this.$route.query.guiderBusinessId);
+      if(this.$route.query.fromSubsystem) tarUrl += ('&fromSubsystem=' + this.$route.query.fromSubsystem);
+      window.location.href = tarUrl;
     },
     cutOne(item){
       axios
@@ -413,12 +215,17 @@ export default {
      }
    },
    toRule(){
+     let query ={};
+     for (const key in this.$route.query) {
+       query[key] = this.$route.query[key];
+     }
      this.$router.push({
             name:'rules',
+            query
           }); 
    },
    getDate(){
-      let leftTime = 1541001599000 - Date.parse(new Date());
+      let leftTime = this.endData - Date.parse(new Date());
       this.tdate.d = Math.floor(leftTime/1000/60/60/24);
       this.tdate.h = Math.floor(leftTime/1000/60/60%24);  
       this.tdate.m = Math.floor(leftTime/1000/60%60);
@@ -480,12 +287,13 @@ export default {
   color:#fff;
 }
 .time1{
-  left: 2.55rem;
+  left: 2.5rem;
 }
 .time2{
   left: 3.27rem;
 }
 .text-times{
+  padding-right:0.4rem;
   position: absolute;
   top: 10.2rem;
   font-size: 12px;
@@ -499,7 +307,7 @@ export default {
   left: 4.01rem;
 }
 .time4{
-  left: 4.75rem;
+  left: 4.7rem;
 }
 .ways{
   width: 100vw;
