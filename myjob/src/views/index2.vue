@@ -55,6 +55,10 @@
           <div class="isclick no-click" v-else></div>
         </div>
         <div class="to-top" @click="toTop">回到顶部</div>
+        <!-- <p style="font-size:12px;">测试数据(会删除)
+          endData：{{endData}}
+          tdata{{tdata}}
+        </p> -->
       </div>
        <div class="btn-bottom">
         <div class="btn-l" @click="toUrl(totalGoodsLink,1)"></div>
@@ -92,7 +96,8 @@ export default {
     list:[],
     totalGoodsLink:'',
     newGiftLink:'',
-    endData:''
+    endData:'',
+    tdata:''
     };
   },
   created() {
@@ -146,7 +151,8 @@ export default {
           this.votes = data.data.data.votes ;
           this.totalGoodsLink = data.data.data.totalGoodsLink;
           this.newGiftLink = data.data.data.newGiftLink;
-          let tarTime = data.data.data.endStr.replace(/"-"/g, "'/'")
+          let tarTime = data.data.data.endStr.split('-').join('/');
+          this.tdata = tarTime;
           this.endData = Date.parse(new Date(tarTime));
           setInterval(this.getDate,1000);
           this.list = data.data.data.productList.map((ele) =>{
@@ -227,6 +233,9 @@ export default {
             // item.actualPopularity++;
             // this.dealmoney(item)
             this.showSuccess = true;
+            setTimeout(() => {
+              this.showSuccess = false;
+            }, 2000);
             this.getData()
           }
         })
@@ -254,11 +263,13 @@ export default {
      }
    },
    dealLeft(num){
-    if(num >=3000) {
-       return '5rem'
-     } else {
-       return ((num * 5 / 3000) + 'rem')
-     }
+    if(num <= 1000){
+      return (num * 2.5/ 1000).toFixed(2) +'rem';
+    }else if(num >=3000) {
+      return '5rem'
+    } else {
+      return 2.5 + ((num -1000) * 2.5/ 2000).toFixed(2) * 1 +'rem';
+    }
    },
    toRule(){
      let query ={};
@@ -423,7 +434,8 @@ export default {
 .l-name2{
   width: 100%;
   height: 0.42rem;
-  font-size: 0.36rem;
+  line-height: 0.4rem;
+  font-size: 0.35rem;
   padding: 0 0.36rem;
   font-weight: bold;
   text-align: left;
@@ -549,7 +561,7 @@ export default {
 }
 .btn-bottom{
   position: absolute;
-  width: 100vh;
+  width: 100vw;
   height: 1.1rem;
   bottom: 0;
   background-color: skyblue;
