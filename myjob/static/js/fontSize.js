@@ -32,7 +32,6 @@
         return ""
     }
 
-    console.log(process.env.SWISSE);
     //赋值给openId
     var openId = getCookie('openId');
     var customerId = getCookie("customerId");
@@ -40,7 +39,7 @@
     // 没授权的，获取授权，要记录地址情况，有可能是分享的特殊页面
     if (!openId || openId == "\"\"" || openId == '') {
         var url = window.location.href;
-        var redirect = 'http://www.swisse-china.com.cn/qxby-h5/reload.html?';
+        var redirect = process.env.SWISSE + '/goodsCall-h5/reload.html?';
         if (url.indexOf('/friendSignIn') >=0) {
             redirect += ('tar=friendSignIn&' + url.split("/friendSignIn?")[1]);
         } else if (url.indexOf('/friendStar') >= 0){
@@ -52,9 +51,8 @@
 
         var refusedUrl = "";
         var authBindingApiUrl = process.env.SWISSE + '/swisseweixin/weixin/authorize?encodeTargetUrl=' + redirect+'&user=1';
-        // window.location.href = authBindingApiUrl;
-        // return false;tion.href = authBindingApiUrl;
-        // return false;
+        window.location.href = authBindingApiUrl;
+        return false;
     }
 
     // if (!customerId || customerId == "\"\"" || customerId == '') {

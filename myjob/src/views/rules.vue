@@ -21,7 +21,7 @@ export default {
        query[key] = this.$route.query[key];
      }
       this.$router.push({
-            name:'index2',
+            name:'index',
             query
           }); 
     }

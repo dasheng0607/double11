@@ -38,13 +38,13 @@
             </div>
             <div class="process-arrow3">
             </div>
-            <div class="process-price1">
+            <div class="process-price1"  v-bind:class="{ 'show-money': item.actualPopularity < 1000 }">
               ￥{{item.price}}
             </div>
-            <div class="process-price2">
+            <div class="process-price2" v-bind:class="{ 'show-money': item.actualPopularity >= 1000 && item.actualPopularity <3000}">
               ￥{{item.priceList[0].prices}}
             </div>
-            <div class="process-price3">
+            <div class="process-price3" v-bind:class="{ 'show-money': item.actualPopularity >= 3000 }">
               ￥{{item.priceList[1].prices}}
             </div>
           </div>
@@ -93,7 +93,7 @@ export default {
     myShare(){
       wxShowMenu.wxShowMenu({
         title1: 'Swisse嗨购预热', // 分享标题
-        title2: '一起来砍价吧', // 分享标题
+        title2: '在吗？可否接过这把刀！', // 分享标题
         desc1: 'Pick出心头好 邀好友一起砍出11.11低价', //分享描述
         desc2: 'Pick出你的心头好 和我一起砍价11.11低价', //分享描述
         link1: window.location.origin + process.env.ROATER + '/#/index',// 分享链接
@@ -174,7 +174,7 @@ export default {
         .post(
           "/goodscall/api/call/addCall",
           qs.stringify({
-            openId: window.openId || 123,
+            openId: window.openId ,
             productId: item.id
           })
         )
@@ -201,10 +201,12 @@ export default {
       document.getElementById("top").scrollTop = 0;
     },
    dealWidth1(num){
-     if(num >=3000) {
+     if(num < 1000){
+       (Math.floor(num * 100 / 2000) + '%')
+     }else if(num >=3000) {
        return '100%'
      } else {
-       return (Math.floor(num * 100 / 3000) + '%')
+       return (Math.floor((num -1000) * 100 / 4000) + 50 + '%')
      }
    },
    dealLeft(num){
@@ -500,5 +502,10 @@ export default {
   width: 50vw;
   float: left;
   /* background-color: red; */
+}
+.show-money{
+  font-size: 0.36rem;
+  color:red;
+  margin-left: -0.1rem;
 }
 </style>
