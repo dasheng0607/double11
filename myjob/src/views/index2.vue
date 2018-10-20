@@ -1,5 +1,8 @@
 <template>
     <div class="center-back">
+      <div v-transfer-dom @click="show2=fasle">
+        <loading :show="show2" text="Loading"></loading>
+      </div>
       <div class="scroll-center" id="top">
         <div class="center-img">
           <div class="top-img">
@@ -65,10 +68,18 @@
 import axios from "axios";
 import wxShowMenu from "../../static/js/share.js";
 import qs from "qs";
+import { Loading,TransferDomDirective as TransferDom } from 'vux'
 // import { setInterval } from 'timers';
 export default {
+  directives: {
+    TransferDom
+  },
+  components: {
+    Loading
+  },
   data() {
     return {
+      show2:false,
     showSuccess:false,
      tdate:{
        d:0,
@@ -85,6 +96,10 @@ export default {
     };
   },
   created() {
+    //  this.$vux.loading.show({
+    //     text: 'Loading'
+    //   })
+    this.show2 = true;
     axios
     .post(
       "/goodsCall/api/member/addMember",
@@ -119,21 +134,33 @@ export default {
       })
     },
     getData(){
+      this.show2 =true;
       axios
         .post(
           "/goodsCall/api/product/getProductList",
           qs.stringify({
-            openId: window.openId,
+            openId: window.openId || 123,
           })
         )
         .then((data) => {
           this.votes = data.data.data.votes ;
-          this.list = data.data.data.productList || [];
           this.totalGoodsLink = data.data.data.totalGoodsLink;
           this.newGiftLink = data.data.data.newGiftLink;
           let tarTime = data.data.data.endStr.replace(/"-"/g, "'/'")
           this.endData = Date.parse(new Date(tarTime));
           setInterval(this.getDate,1000);
+          this.list = data.data.data.productList.map((ele) =>{
+            if(ele.state){
+              ele.actualPopularity +=1;
+              if(ele.actualPopularity  == 1000){
+                ele.priceActivity = ele.priceList[0].prices;
+              }else if(ele.actualPopularity  == 3000) {
+                ele.priceActivity = ele.priceList[1].prices;
+              }
+            }
+            return ele;
+          });
+          this.show2 =false;
         })
         .catch(function (error) {
           console.log(error);
@@ -190,16 +217,17 @@ export default {
         .post(
           "/goodsCall/api/call/addCall",
           qs.stringify({
-            openId: window.openId ,
+            openId: window.openId || 123,
             productId: item.id
           })
         )
         .then((data) => {
           if(data.data.errMsg ==='成功'){
-            item.state = 1;
-            item.actualPopularity++;
-            this.dealmoney(item)
+            // item.state = 1;
+            // item.actualPopularity++;
+            // this.dealmoney(item)
             this.showSuccess = true;
+            this.getData()
           }
         })
         .catch(function (error) {
@@ -208,9 +236,9 @@ export default {
     },
     dealmoney(item){
       if(item.actualPopularity  == 1000){
-        item.price = item.priceList[0].prices;
+        item.priceActivity = item.priceList[0].prices;
       }else if(item.actualPopularity  == 3000) {
-        item.price = item.priceList[1].prices;
+        item.priceActivity = item.priceList[1].prices;
       }
     },
     toTop() {
@@ -255,9 +283,30 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style >
 *{
   box-sizing: border-box;
+}
+.weui-icon_toast{
+  margin-top: 40vh !important;
+}
+.weui-toast{
+  top: 0 !important;
+  width: 100vw;
+  bottom: 0;
+}
+.weui-toast__content{
+  font-size: 16px;
+}
+.load{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 17, 17, 0.7);
+  z-index: 100;
+  position: fixed;
+}
+.weui-toast{
+
 }
 .success{
   position: fixed;
@@ -301,11 +350,11 @@ export default {
 .time1,.time2,.time3,.time4{
   position: absolute;
   top: 9.25rem;
-  font-size: 16px;
+  font-size: 14px;
   color:#fff;
 }
 .time1{
-  left: 2.5rem;
+  left: 2.52rem;
 }
 .time2{
   left: 3.27rem;
