@@ -85,9 +85,24 @@ export default {
     };
   },
   created() {
-      this.getData();
-      this.sendDot('B000040100');
-      this.myShare();
+    axios
+    .post(
+      "/goodsCall/api/member/addMember",
+      qs.stringify({
+        openId: window.openId || 123,
+        customerId: window.customerId,
+        headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
+        nickName: window.user.nickname || 'test'
+      })
+    )
+    .then((data) => {
+        this.getData();
+        this.sendDot('B000040100');
+        this.myShare();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   },
   methods: {
     myShare(){
@@ -106,9 +121,9 @@ export default {
     getData(){
       axios
         .post(
-          "/goodscall/api/product/getProductList",
+          "/goodsCall/api/product/getProductList",
           qs.stringify({
-            openId: window.openId || 123,
+            openId: window.openId,
           })
         )
         .then((data) => {
@@ -116,7 +131,8 @@ export default {
           this.list = data.data.data.productList || [];
           this.totalGoodsLink = data.data.data.totalGoodsLink;
           this.newGiftLink = data.data.data.newGiftLink;
-          this.endData = Date.parse(new Date(data.data.data.endStr));
+          let tarTime = data.data.data.endStr.replace(/"-"/g, "'/'")
+          this.endData = Date.parse(new Date(tarTime));
           setInterval(this.getDate,1000);
         })
         .catch(function (error) {
@@ -172,7 +188,7 @@ export default {
     cutOne(item){
       axios
         .post(
-          "/goodscall/api/call/addCall",
+          "/goodsCall/api/call/addCall",
           qs.stringify({
             openId: window.openId ,
             productId: item.id
