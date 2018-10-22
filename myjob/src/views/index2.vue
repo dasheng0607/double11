@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="ways"></div>
-        <div class="commodity" v-for="(item,index) in list" :key="index" v-bind:style="{ 'background-color': !(index % 2) ?'':'#fff'  }">
+        <div class="commodity" v-for="(item,index) in list" :key="index" v-bind:style="{ 'background-color': !(index % 2) ?'':'#fff','text-align':  !(index % 2) ? 'left':'right'  }">
           <div class="news" @click="toNews(item.link)">
             <div class="com-l" v-bind:class="{ 'go-r': index % 2}">
               <div class="l-name">
@@ -24,7 +24,12 @@
               <div class="l-name2">{{item.spec}}</div>
               <div class="price">原价：￥{{item.price}}</div>
               <div class="new-price">{{item.priceActivity}}元</div>
-              <div class="tip-money"></div>
+              <div class="tip-money" v-if="item.actualPopularity <3000"> 
+                加油鸭!人气越高,价格越低!
+              </div>
+              <div class="tip-money tip-img" v-else>
+                砍价完成!11.11开始买!
+              </div>
             </div>
             <div class="com-r"  v-bind:style="{ 'margin-left': !(index % 2) ?'':'0.3rem' ,'background-image':'url('+ item.img+')'}"></div>
           </div>
@@ -167,8 +172,11 @@ export default {
           this.$nextTick((ele) =>{
             if(localStorage.getItem("scroll")){
               document.documentElement.scrollTop  = localStorage.getItem("scroll") *1;
+              document.body.scrollTop = localStorage.getItem("scroll") *1; 
+              document.getElementById('app').scrollTop = localStorage.getItem("scroll") *1;
               localStorage.clear();
             }
+            document.body.scrollTop = 500;
           })
         })
         .catch(function (error) {
@@ -256,14 +264,17 @@ export default {
     },
     toTop() {
       document.documentElement.scrollTop  = 0;
+      document.body.scrollTop = 0; 
+      document.getElementById('app').scrollTop = 0;
     },
    dealWidth1(num){
-     if(num < 1000){
-       (Math.floor(num * 100 / 2000) + '%')
+     if(num <= 1000){
+       if(!num) return '0%'
+      return (Math.ceil(num * 100 / 2000) >= 5? Math.ceil(num * 100 / 2000) : 5 + '%')
      }else if(num >=3000) {
        return '100%'
      } else {
-       return (Math.floor((num -1000) * 100 / 4000) + 50 + '%')
+       return (Math.ceil((num -1000) * 100 / 4000) + 50 + '%')
      }
    },
    dealLeft(num){
@@ -353,9 +364,9 @@ export default {
 .top-img{
   position: relative;
   width: 100vw;
-  height: 11.53rem;
-  background: url("../../static/images/top.png") left top no-repeat;
-  background-size: 100vw 11.53rem;
+  height: 10.78rem;
+  background: url("../../static/images/top1.png") left top no-repeat;
+  background-size: 100vw 10.78rem;
 }
 .rule{
   position: absolute;
@@ -371,10 +382,10 @@ export default {
   color:#fff;
 }
 .time1{
-  left: 2.52rem;
+  left: 2.566rem;
 }
 .time2{
-  left: 3.27rem;
+  left: 3.288rem;
 }
 .text-times{
   padding-right:0.4rem;
@@ -388,12 +399,13 @@ export default {
   text-indent: 2em;
 }
 .time3{
-  left: 4.01rem;
+  left: 4.025rem;
 }
 .time4{
-  left: 4.7rem;
+  left: 4.752rem;
 }
 .ways{
+  margin-top: 0.5rem;
   width: 100vw;
   height: 6.02rem;
   background: url("../../static/images/ways.png") center center no-repeat;
@@ -434,7 +446,7 @@ export default {
   left: 0;
   padding: 0 0.36rem;
   width: 100%;
-  text-align: left;
+  /* text-align: left; */
   color:#000;
 }
 .l-name2{
@@ -444,14 +456,14 @@ export default {
   font-size: 0.35rem;
   padding: 0 0.36rem;
   font-weight: bold;
-  text-align: left;
+  /* text-align: left; */
 }
 .price{
   height: 0.93rem;
-  padding: 0 0.36rem;
+  padding: 0  0.46rem 0 0.36rem;
   font-size: 0.24rem;
   padding-top: 0.5rem;
-  text-align: left;
+  /* text-align: left; */
 }
 .new-price{
   width: 2.95rem;
@@ -463,13 +475,21 @@ export default {
   font-weight: bold;
   color:#fff;
   padding-left: 1.96rem;
+  text-align: left;
 }
 .tip-money{
- width: 2.94rem;
-  margin: 0 0.36rem;
-  height: 0.36rem;
-  background: url("../../static/images/tip-money.png") left top no-repeat;
-  background-size: 2.94rem 0.36rem;
+  /* width: 2.65rem; */
+  margin: 0.15rem  0.36rem;
+  /* height: 0.21rem; */
+  /* background: url("../../static/images/tip1.png") left top no-repeat; */
+  /* background-size: 2.65rem 0.21rem; */
+  font-size: 0.12rem;
+  color:rgb(155, 155, 155);
+  /* text-align: left; */
+}
+.tip-img{
+   /* background: url("../../static/images/tip2.png") left top no-repeat; */
+  /* background-size: 2.65rem 0.21rem; */
 }
 .process{
   height: 1.86rem;
@@ -519,7 +539,7 @@ export default {
   left: 6.18rem;
 }
 .process-price1,.process-price2,.process-price3{
-  text-align: left;
+  /* text-align: left; */
   width: 0.90rem;
   height: 0.38rem;
   position: absolute;
