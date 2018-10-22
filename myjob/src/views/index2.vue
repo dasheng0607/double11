@@ -97,13 +97,10 @@ export default {
     totalGoodsLink:'',
     newGiftLink:'',
     endData:'',
-    tdata:''
+    tdata:'',
     };
   },
   created() {
-    //  this.$vux.loading.show({
-    //     text: 'Loading'
-    //   })
     this.show2 = true;
     axios
     .post(
@@ -167,6 +164,12 @@ export default {
             return ele;
           });
           this.show2 =false;
+          this.$nextTick((ele) =>{
+            if(localStorage.getItem("scroll")){
+              document.documentElement.scrollTop  = localStorage.getItem("scroll") *1;
+              localStorage.clear();
+            }
+          })
         })
         .catch(function (error) {
           console.log(error);
@@ -216,6 +219,7 @@ export default {
       if(this.$route.query.guiderSourceBusiness) tarUrl += ('&guiderSourceBusiness=' + this.$route.query.guiderSourceBusiness);
       if(this.$route.query.guiderBusinessId) tarUrl += ('&guiderBusinessId=' + this.$route.query.guiderBusinessId);
       if(this.$route.query.fromSubsystem) tarUrl += ('&fromSubsystem=' + this.$route.query.fromSubsystem);
+      localStorage.setItem("scroll",document.documentElement.scrollTop);
       window.location.href = tarUrl;
     },
     cutOne(item){
@@ -251,7 +255,7 @@ export default {
       }
     },
     toTop() {
-      document.getElementById("top").scrollTop = 0;
+      document.documentElement.scrollTop  = 0;
     },
    dealWidth1(num){
      if(num < 1000){
@@ -311,7 +315,7 @@ export default {
 }
 .load{
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   background-color: rgba(17, 17, 17, 0.7);
   z-index: 100;
   position: fixed;
@@ -322,22 +326,23 @@ export default {
 .success{
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   background: url("../../static/images/success.png") center center no-repeat;
   background-size: 5.20rem 2.12rem;
 }
 .center-back{
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
   background-color: red;
   position: relative;
 }
 .scroll-center{
   width: 100vw;
-  position: absolute;
-  top: 0px;
-  bottom: 1.1rem;
-  overflow-y: scroll;
+  /* position: absolute; */
+  /* top: 0px; */
+  /* bottom: 1.1rem; */
+  /* overflow-y: scroll; */
+  margin-bottom: 1.1rem;
   background-color: rgb(254, 248, 248);
 }
 
@@ -560,7 +565,7 @@ export default {
   display: inline-block;
 }
 .btn-bottom{
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 1.1rem;
   bottom: 0;
