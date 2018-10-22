@@ -326,7 +326,8 @@ export default {
 .success{
   position: fixed;
   width: 100vw;
-  /* height: 100vh; */
+  top: 0;
+  height: 100vh;
   background: url("../../static/images/success.png") center center no-repeat;
   background-size: 5.20rem 2.12rem;
 }
