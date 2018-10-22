@@ -35,8 +35,8 @@ export default {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: url("../../static/images/rules.png") left 0.2rem no-repeat rgb(255, 239, 232);
-  background-size: 100vw 9.91rem;
+  background: url("../../static/images/rules.png") center 0.2rem no-repeat rgb(255, 239, 232);
+  background-size: 6.85rem 9.91rem;
 }
 .back{
   width: 2.20rem;
