@@ -26,7 +26,7 @@
               <div class="new-price">{{item.priceActivity}}元</div>
               <div class="tip-money"></div>
             </div>
-            <div class="com-r"  v-bind:style="{ 'margin-left': !(index % 2) ?'':'0.3rem'  }"></div>
+            <div class="com-r"  v-bind:style="{ 'margin-left': !(index % 2) ?'':'0.3rem' ,'background-image':'url('+ item.img+')'}"></div>
           </div>
           <div class="process">
             <div class="process-top" v-bind:style="{ left: dealLeft(item.actualPopularity) }">
@@ -70,7 +70,7 @@
 
 <script>
 import axios from "axios";
-import wxShowMenu from "../../static/js/share.js";
+import wxShowMenu from "../js/share.js";
 import qs from "qs";
 import { Loading,TransferDomDirective as TransferDom } from 'vux'
 // import { setInterval } from 'timers';
