@@ -595,6 +595,7 @@ export default {
   left: 0.70rem;
   font-size: 0.26rem;
   font-weight: bold;
+  color:rgb(154, 154, 154)
 }
 .process-price2{
   left: 3.48rem;
