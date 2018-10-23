@@ -36,13 +36,14 @@
           <div class="process">
             <div class="process-top" v-bind:style="{ left: dealLeft(item.actualPopularity) }">当前人气值:{{item.actualPopularity}}</div>
             <div class="process-line">
-              <div  class="process-line-show" v-bind:style="{ width: dealWidth1(item.actualPopularity) }"></div>
               <div  v-show="item.show" class="process-line-show2" v-bind:style="{ width: dealWidth1(item.actualPopularity) }">
                 <transition name="bounce">
                   <div v-show="item.show" class="scroll-run"></div>
                 </transition>
               </div>
-              
+              <div  class="process-line-show" v-bind:style="{ width: dealWidth1(item.actualPopularity) }"></div>
+              <span class="money1">1000</span>
+              <span class="money2">3000</span>
             </div>
             <div class="process-arrow1">
             </div>
@@ -92,6 +93,7 @@ export default {
   },
   data() {
     return {
+      num:3002,
       show2:false,
     showSuccess:false,
      tdate:{
@@ -116,7 +118,7 @@ export default {
     .post(
       "/goodsCall/api/member/addMember",
       qs.stringify({
-        openId: window.openId || 2001,
+        openId: window.openId || this.num,
         customerId: window.customerId,
         headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
         nickName: window.user.nickname || 'test',
@@ -162,7 +164,7 @@ export default {
         .post(
           "/goodsCall/api/product/getProductList",
           qs.stringify({
-            openId: window.openId || 2001,
+            openId: window.openId || this.num,
           })
         )
         .then((data) => {
@@ -263,7 +265,7 @@ export default {
         .post(
           "/goodsCall/api/call/addCall",
           qs.stringify({
-            openId: window.openId || 2001,
+            openId: window.openId || this.num,
             productId: item.id
           })
         )
@@ -485,7 +487,8 @@ export default {
   /* text-align: left; */
   color:#000;
 }
-.l-name2{
+.l-name2{ 
+  color:rgb(52, 52, 52);
   width: 100%;
   height: 0.42rem;
   line-height: 0.42rem;
@@ -548,12 +551,17 @@ export default {
 .process-line{
   width: 6.25rem;
   height: 0.28rem;
-  background: url("../../static/images/progress-line1.png") left top no-repeat;
+  background: url("../../static/images/progress-line2.png") left top no-repeat;
   background-size: 6.25rem 0.28rem;
   position: absolute;
   top: 0.80rem;
   left: 0.62rem;
   overflow: hidden;
+ -webkit-border-radius:0.28rem;
+      -moz-border-radius:0.28rem;
+      -ms-border-radius:0.28rem;
+        -o-border-radius:0.28rem;
+          border-radius:0.28rem;
 }
 .process-line-show,.process-line-show2{
   background-color: rgba(253, 157, 150, 1);
@@ -569,7 +577,6 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  padding: 0 0.14rem;
   -webkit-border-radius:0.28rem;
       -moz-border-radius:0.28rem;
       -ms-border-radius:0.28rem;
@@ -583,6 +590,21 @@ export default {
   width: 200vw;
   height: 0.28rem;
   background: url("../../static/images/scroll.png") left top repeat;
+}
+.money1,.money2{
+  color:rgb(255, 255, 255);
+  font-size: 0.16rem;
+  /* font-weight: bold; */
+  position:absolute;
+  left: 2.85rem;
+  top:0.06rem;
+  height: 0.18rem;
+  width: 0.5rem;
+  font-size: 0.18rem;
+  line-height: 0.18rem;
+}
+.money2{
+  left:5.41rem;
 }
 .process-arrow1,.process-arrow2,.process-arrow3{
   width: 0.21rem;
