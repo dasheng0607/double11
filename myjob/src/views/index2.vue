@@ -338,6 +338,7 @@ export default {
 <style >
 *{
   box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
 }
 .bounce-enter-active {
   animation: bounce-in 5s;
