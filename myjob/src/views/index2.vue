@@ -42,6 +42,7 @@
                 </transition>
               </div>
               <div  class="process-line-show" v-bind:style="{ width: dealWidth1(item.actualPopularity) }"></div>
+              <div   v-show="item.show" class="process-line-show process-line-show3" v-bind:style="{ width: dealWidth1(item.actualPopularity) }"></div>
               <span class="money1">1000</span>
               <span class="money2">3000</span>
             </div>
@@ -93,7 +94,7 @@ export default {
   },
   data() {
     return {
-      num:3002,
+      num:3005,
       show2:false,
     showSuccess:false,
      tdate:{
@@ -577,11 +578,12 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  -webkit-border-radius:0.28rem;
-      -moz-border-radius:0.28rem;
-      -ms-border-radius:0.28rem;
-        -o-border-radius:0.28rem;
-          border-radius:0.28rem;
+}
+.process-line-show3{
+  background-color: rgba(255, 255, 255, 0);
+  position: absolute;
+  left: 0;
+  top: 0;
   overflow: hidden;
 }
 .scroll-run{
