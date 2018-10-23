@@ -62,7 +62,7 @@
               ￥{{item.priceList[1].prices}}
             </div>
           </div>
-          <div class="isclick to-click" v-if="!item.state" @click="cutOne(item,index)"></div>
+          <div class="isclick to-click" v-if="item.state" @click="item.show = true;"></div>
           <div class="isclick no-click"  v-else></div>
         </div>
         <div class="to-top" @click="toTop">回到顶部</div>
@@ -105,7 +105,7 @@ export default {
      },
      votes: 9,
     // 中间的内容
-    list:[],
+    list:[{"priceActivity":156,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018102211474387.jpg","price":156,"name":"葡萄籽片 14250mg 180片","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124128&terminalCode=912849","id":1,"state":1,"actualPopularity":3009,"spec":"红润美肌“小能手”","priceList":[{"number":"1000","prices":"128"},{"number":"3000","prices":"109"}],"show":false},{"priceActivity":114,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814523109.jpg","price":114,"name":"高浓度蔓越莓胶囊 25000mg 30粒","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124121&terminalCode=912849","id":2,"state":0,"actualPopularity":1121,"spec":"呵护女性秘密花园","priceList":[{"number":"1000","prices":"89"},{"number":"3000","prices":"79"}],"show":false},{"priceActivity":132,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814536071.jpg","price":132,"name":"儿童钙+维生素D3胶囊 50粒","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=127803&terminalCode=912849","id":3,"state":1,"actualPopularity":10,"spec":"长高高的小秘密","priceList":[{"number":"1000","prices":"99"},{"number":"3000","prices":"89"}],"show":false},{"priceActivity":80,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814545823.jpg","price":80,"name":"Ultiboost补铁片 30片","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=153406&terminalCode=912849","id":4,"state":0,"actualPopularity":4,"spec":"有效补铁 孕期可用","priceList":[{"number":"1000","prices":"65"},{"number":"3000","prices":"59"}],"show":false},{"priceActivity":131,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814545397.jpg","price":131,"name":"儿童益生菌片 40片","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=127903&terminalCode=912849","id":5,"state":0,"actualPopularity":4,"spec":"守护孩子肚肚的小卫士","priceList":[{"number":"1000","prices":"98"},{"number":"3000","prices":"69"}],"show":false},{"priceActivity":131,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814556545.jpg","price":131,"name":"儿童复合维生素片 120片 /瓶","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124135&terminalCode=912849","id":6,"state":1,"actualPopularity":3,"spec":"给挑食宝宝均衡的爱","priceList":[{"number":"1000","prices":"99"},{"number":"3000","prices":"89"}],"show":false},{"priceActivity":132,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814573494.jpg","price":132,"name":"儿童益智DHA胶囊 30粒","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=152609&terminalCode=912849","id":7,"state":0,"actualPopularity":6,"spec":"DHA有助大脑发育","priceList":[{"number":"1000","prices":"109"},{"number":"3000","prices":"89"}],"show":false},{"priceActivity":68,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814585683.jpg","price":68,"name":"深海保湿调节喷雾 125ML","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124127&terminalCode=912849","id":8,"state":0,"actualPopularity":0,"spec":"滋养肌肤 补充水分","priceList":[{"number":"1000","prices":"54"},{"number":"3000","prices":"49"}],"show":false},{"priceActivity":133,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814589235.jpg","price":133,"name":"摩洛哥坚果眼霜 15ml","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=117932&terminalCode=912849","id":9,"state":0,"actualPopularity":3,"spec":"紧致保湿 淡化黑眼圈","priceList":[{"number":"1000","prices":"99"},{"number":"3000","prices":"59"}],"show":false},{"priceActivity":176,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814599340.jpg","price":176,"name":"镁钙维生素D3片 120片","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=137204&terminalCode=912849","id":10,"state":0,"actualPopularity":0,"spec":"镁+钙科学搭配易吸收","priceList":[{"number":"1000","prices":"119"},{"number":"3000","prices":"99"}],"show":false},{"priceActivity":220,"img":"http://goods-call-dev.oss-cn-shenzhen.aliyuncs.com/product/2018101814593465.jpg","price":220,"name":"孕期叶酸+复合维生素胶囊（含500mcg叶酸）90粒 /瓶","link":"http://www.swisse-china.com.cn/swisse-wmall/o2o/product4.2/products_detail_v4.2.html?prodId=124106&terminalCode=912849","id":11,"state":0,"actualPopularity":4,"spec":"孕期营养“好装备”","priceList":[{"number":"1000","prices":"159"},{"number":"3000","prices":"109"}],"show":false}],
     totalGoodsLink:'',
     newGiftLink:'',
     endData:'',
@@ -114,26 +114,26 @@ export default {
     };
   },
   created() {
-    this.show2 = true;
-    axios
-    .post(
-      "/goodsCall/api/member/addMember",
-      qs.stringify({
-        openId: window.openId || this.num,
-        customerId: window.customerId,
-        headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
-        nickName: window.user.nickname || 'test',
-        link: window.location.href
-      })
-    )
-    .then((data) => {
-        this.getData();
-        this.sendDot('B000040100');
-        this.myShare();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    // this.show2 = true;
+    // axios
+    // .post(
+    //   "/goodsCall/api/member/addMember",
+    //   qs.stringify({
+    //     openId: window.openId || this.num,
+    //     customerId: window.customerId,
+    //     headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
+    //     nickName: window.user.nickname || 'test',
+    //     link: window.location.href
+    //   })
+    // )
+    // .then((data) => {
+    //     this.getData();
+    //     this.sendDot('B000040100');
+    //     this.myShare();
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
   },
   mounted () {
     this.toTop()
@@ -188,6 +188,7 @@ export default {
             ele.show = false;
             return ele;
           });
+          console.log(JSON.stringify(this.list));
           this.show2 =false;
           this.$nextTick((ele) =>{
             if(localStorage.getItem("scroll")){

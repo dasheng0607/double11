@@ -51,8 +51,8 @@
 
         var refusedUrl = "";
         var authBindingApiUrl = process.env.SWISSE + '/swisseweixin/weixin/authorize?encodeTargetUrl=' + redirect+'&user=1';
-        window.location.href = authBindingApiUrl;
-        return false;
+        // window.location.href = authBindingApiUrl;
+        // return false;
     }
 
     // if (!customerId || customerId == "\"\"" || customerId == '') {
