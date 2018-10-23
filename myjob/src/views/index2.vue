@@ -116,10 +116,11 @@ export default {
     .post(
       "/goodsCall/api/member/addMember",
       qs.stringify({
-        openId: window.openId || 1000,
+        openId: window.openId || 1001,
         customerId: window.customerId,
         headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
-        nickName: window.user.nickname || 'test'
+        nickName: window.user.nickname || 'test',
+        link: window.location.href
       })
     )
     .then((data) => {
@@ -161,7 +162,7 @@ export default {
         .post(
           "/goodsCall/api/product/getProductList",
           qs.stringify({
-            openId: window.openId || 1000,
+            openId: window.openId || 1001,
           })
         )
         .then((data) => {
@@ -190,6 +191,7 @@ export default {
               document.documentElement.scrollTop  = localStorage.getItem("scroll") *1;
               document.body.scrollTop = localStorage.getItem("scroll") *1; 
               localStorage.clear();
+              this.btnclose = false;
             }else {
               if(this.btnclose){ // 一次性开关，返回头部
                 this.btnclose = false;
@@ -197,6 +199,10 @@ export default {
               }
             }
             if(index >= 0) {
+              this.showSuccess = true;
+              setTimeout(() => {
+                this.showSuccess = false;
+              }, 1500);
               this.closeScroll(index);
             }
           })
@@ -257,7 +263,7 @@ export default {
         .post(
           "/goodsCall/api/call/addCall",
           qs.stringify({
-            openId: window.openId || 1000,
+            openId: window.openId || 1001,
             productId: item.id
           })
         )
@@ -266,10 +272,6 @@ export default {
             // item.state = 1;
             // item.actualPopularity++;
             // this.dealmoney(item)
-            this.showSuccess = true;
-            setTimeout(() => {
-              this.showSuccess = false;
-            }, 1000);
             this.getData(index)
           }
         })
@@ -554,15 +556,25 @@ export default {
   overflow: hidden;
 }
 .process-line-show,.process-line-show2{
-  width: 0%;
-  background-color: rgba(238, 45, 31, .2);
+  background-color: rgba(253, 157, 150, 1);
   height: 0.28rem;
-  border-radius: 0.28rem;
+  overflow: hidden;
+  -webkit-border-radius:0.28rem;
+      -moz-border-radius:0.28rem;
+      -ms-border-radius:0.28rem;
+        -o-border-radius:0.28rem;
+          border-radius:0.28rem;
 }
 .process-line-show2{
   position: absolute;
   left: 0;
   top: 0;
+  padding: 0 0.14rem;
+  -webkit-border-radius:0.28rem;
+      -moz-border-radius:0.28rem;
+      -ms-border-radius:0.28rem;
+        -o-border-radius:0.28rem;
+          border-radius:0.28rem;
   overflow: hidden;
 }
 .scroll-run{
