@@ -346,11 +346,14 @@ export default {
 @keyframes bounce-in {
   0% {
     /* transform: scale(0); */
-    transform: translateX(-50vw);
+    /* transform: translateX(-50vw);
+     */
+      background: url("../../static/images/scroll.png") 0 top repeat;
   }
   100% {
     /* transform: scale(1); */
-    transform: translateX(0);
+    /* transform: translateX(0); */
+     background: url("../../static/images/scroll.png") -50vw top repeat;
   }
 }
 .weui-icon_toast{
