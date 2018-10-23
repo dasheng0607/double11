@@ -34,11 +34,15 @@
             <div class="com-r"  v-bind:style="{ 'margin-left': !(index % 2) ?'':'0.3rem' ,'background-image':'url('+ item.img+')'}"></div>
           </div>
           <div class="process">
-            <div class="process-top" v-bind:style="{ left: dealLeft(item.actualPopularity) }">
-              当前人气值:{{item.actualPopularity}}
-            </div>
+            <div class="process-top" v-bind:style="{ left: dealLeft(item.actualPopularity) }">当前人气值:{{item.actualPopularity}}</div>
             <div class="process-line">
-              <div class="process-line-show" v-bind:style="{ width: dealWidth1(item.actualPopularity) }"></div>
+              <div  class="process-line-show" v-bind:style="{ width: dealWidth1(item.actualPopularity) }"></div>
+              <div  v-show="item.show" class="process-line-show2" v-bind:style="{ width: dealWidth1(item.actualPopularity) }">
+                <transition name="bounce">
+                  <div v-show="item.show" class="scroll-run"></div>
+                </transition>
+              </div>
+              
             </div>
             <div class="process-arrow1">
             </div>
@@ -56,8 +60,8 @@
               ￥{{item.priceList[1].prices}}
             </div>
           </div>
-          <div class="isclick to-click" v-if="!item.state" @click="cutOne(item)"></div>
-          <div class="isclick no-click" v-else></div>
+          <div class="isclick to-click" v-if="!item.state" @click="cutOne(item,index)"></div>
+          <div class="isclick no-click"  v-else></div>
         </div>
         <div class="to-top" @click="toTop">回到顶部</div>
         <!-- <p style="font-size:12px;">测试数据(会删除)
@@ -103,6 +107,7 @@ export default {
     newGiftLink:'',
     endData:'',
     tdata:'',
+    btnclose: true
     };
   },
   created() {
@@ -111,7 +116,7 @@ export default {
     .post(
       "/goodsCall/api/member/addMember",
       qs.stringify({
-        openId: window.openId || 123,
+        openId: window.openId || 1000,
         customerId: window.customerId,
         headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
         nickName: window.user.nickname || 'test'
@@ -126,7 +131,17 @@ export default {
       console.log(error);
     });
   },
+  mounted () {
+    this.toTop()
+  },
   methods: {
+    closeScroll(index){
+      let item = this.list[index];
+      item.show = true;
+      setTimeout(() => {
+        item.show = false;
+      }, 5100);
+    },
     myShare(){
       wxShowMenu.wxShowMenu({
         title1: 'Swisse嗨购预热', // 分享标题
@@ -140,13 +155,13 @@ export default {
         this.sendDot('B000040101');
       })
     },
-    getData(){
+    getData(index=-1){
       this.show2 =true;
       axios
         .post(
           "/goodsCall/api/product/getProductList",
           qs.stringify({
-            openId: window.openId || 123,
+            openId: window.openId || 1000,
           })
         )
         .then((data) => {
@@ -166,6 +181,7 @@ export default {
                 ele.priceActivity = ele.priceList[1].prices;
               }
             }
+            ele.show = false;
             return ele;
           });
           this.show2 =false;
@@ -173,10 +189,16 @@ export default {
             if(localStorage.getItem("scroll")){
               document.documentElement.scrollTop  = localStorage.getItem("scroll") *1;
               document.body.scrollTop = localStorage.getItem("scroll") *1; 
-              document.getElementById('app').scrollTop = localStorage.getItem("scroll") *1;
               localStorage.clear();
+            }else {
+              if(this.btnclose){ // 一次性开关，返回头部
+                this.btnclose = false;
+                this.toTop();
+              }
             }
-            document.body.scrollTop = 500;
+            if(index >= 0) {
+              this.closeScroll(index);
+            }
           })
         })
         .catch(function (error) {
@@ -230,12 +252,12 @@ export default {
       localStorage.setItem("scroll",document.documentElement.scrollTop);
       window.location.href = tarUrl;
     },
-    cutOne(item){
+    cutOne(item,index){
       axios
         .post(
           "/goodsCall/api/call/addCall",
           qs.stringify({
-            openId: window.openId || 123,
+            openId: window.openId || 1000,
             productId: item.id
           })
         )
@@ -248,7 +270,7 @@ export default {
             setTimeout(() => {
               this.showSuccess = false;
             }, 1000);
-            this.getData()
+            this.getData(index)
           }
         })
         .catch(function (error) {
@@ -265,7 +287,6 @@ export default {
     toTop() {
       document.documentElement.scrollTop  = 0;
       document.body.scrollTop = 0; 
-      document.getElementById('app').scrollTop = 0;
     },
    dealWidth1(num){
      if(num <= 1000){
@@ -312,6 +333,19 @@ export default {
 <style >
 *{
   box-sizing: border-box;
+}
+.bounce-enter-active {
+  animation: bounce-in 5s;
+}
+@keyframes bounce-in {
+  0% {
+    /* transform: scale(0); */
+    transform: translateX(-50vw);
+  }
+  100% {
+    /* transform: scale(1); */
+    transform: translateX(0);
+  }
 }
 .weui-icon_toast{
   margin-top: 40vh !important;
@@ -452,7 +486,7 @@ export default {
 .l-name2{
   width: 100%;
   height: 0.42rem;
-  line-height: 0.4rem;
+  line-height: 0.42rem;
   font-size: 0.35rem;
   padding: 0 0.36rem;
   font-weight: bold;
@@ -483,7 +517,7 @@ export default {
   /* height: 0.21rem; */
   /* background: url("../../static/images/tip1.png") left top no-repeat; */
   /* background-size: 2.65rem 0.21rem; */
-  font-size: 0.12rem;
+  font-size: 0.20rem;
   color:rgb(155, 155, 155);
   /* text-align: left; */
 }
@@ -507,6 +541,7 @@ export default {
   position: absolute;
   top: 0.28rem;
   left: 0rem;
+  text-align: center;
 }
 .process-line{
   width: 6.25rem;
@@ -516,12 +551,25 @@ export default {
   position: absolute;
   top: 0.80rem;
   left: 0.62rem;
+  overflow: hidden;
 }
-.process-line-show{
+.process-line-show,.process-line-show2{
   width: 0%;
   background-color: rgba(238, 45, 31, .2);
   height: 0.28rem;
   border-radius: 0.28rem;
+}
+.process-line-show2{
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+}
+.scroll-run{
+  position: absolute;
+  width: 200vw;
+  height: 0.28rem;
+  background: url("../../static/images/scroll.png") left top repeat;
 }
 .process-arrow1,.process-arrow2,.process-arrow3{
   width: 0.21rem;
