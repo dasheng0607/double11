@@ -116,7 +116,7 @@ export default {
     .post(
       "/goodsCall/api/member/addMember",
       qs.stringify({
-        openId: window.openId || 1001,
+        openId: window.openId || 2001,
         customerId: window.customerId,
         headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
         nickName: window.user.nickname || 'test',
@@ -162,7 +162,7 @@ export default {
         .post(
           "/goodsCall/api/product/getProductList",
           qs.stringify({
-            openId: window.openId || 1001,
+            openId: window.openId || 2001,
           })
         )
         .then((data) => {
@@ -263,7 +263,7 @@ export default {
         .post(
           "/goodsCall/api/call/addCall",
           qs.stringify({
-            openId: window.openId || 1001,
+            openId: window.openId || 2001,
             productId: item.id
           })
         )
@@ -578,7 +578,8 @@ export default {
   overflow: hidden;
 }
 .scroll-run{
-  position: absolute;
+  /* position: absolute; */
+  z-index: -1;
   width: 200vw;
   height: 0.28rem;
   background: url("../../static/images/scroll.png") left top repeat;
