@@ -25,10 +25,10 @@
               <div class="price">原价：￥{{item.price}}</div>
               <div class="new-price">{{item.priceActivity}}元</div>
               <div class="tip-money" v-if="item.actualPopularity <3000"> 
-                加油鸭!人气越高,价格越低!
+                加油鸭！人气越高,价格越低！
               </div>
               <div class="tip-money tip-img" v-else>
-                砍价完成!11.11开始买!
+                砍价完成！11.1开始买！
               </div>
             </div>
             <div class="com-r"  v-bind:style="{ 'margin-left': !(index % 2) ?'':'0.3rem' ,'background-image':'url('+ item.img+')'}"></div>
@@ -94,7 +94,7 @@ export default {
   },
   data() {
     return {
-      num:3005,
+      num:3006,
       show2:false,
     showSuccess:false,
      tdate:{
@@ -179,10 +179,12 @@ export default {
           this.list = data.data.data.productList.map((ele) =>{
             if(ele.state){
               ele.actualPopularity +=1;
-              if(ele.actualPopularity  == 1000){
-                ele.priceActivity = ele.priceList[0].prices;
-              }else if(ele.actualPopularity  == 3000) {
+              if(ele.actualPopularity  >= 3000){
                 ele.priceActivity = ele.priceList[1].prices;
+              }else if(ele.actualPopularity  >= 1000) {
+                ele.priceActivity = ele.priceList[0].prices;
+              } else {
+                ele.priceActivity = ele.price
               }
             }
             ele.show = false;

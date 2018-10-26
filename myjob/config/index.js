@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/goodsCall/*': {
-        target: 'http://java.howjoin.com',
+        target: 'http://swissewx.mama100.cn',
         secure: false,
         changeOrigin: true,
       }
@@ -49,7 +49,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/goodsCall-h5/',
+    assetsPublicPath: 'https://hhcoverbaby.oss-cn-shenzhen.aliyuncs.com/goodsCall-h5/',
 
     /**
      * Source Maps
