@@ -148,12 +148,12 @@ export default {
     },
     myShare(){
       wxShowMenu.wxShowMenu({
-        title1: 'Swisse嗨购预热', // 分享标题
+        title1: 'Swisse嗨购预热 | Pick出心头好 邀好友一起砍出11.11低价', // 分享标题
         title2: '在吗？可否接过这把刀！', // 分享标题
-        desc1: 'Pick出心头好 邀好友一起砍出11.11低价', //分享描述
         desc2: 'Pick出你的心头好 和我一起砍价11.11低价', //分享描述
         link1: window.location.origin + process.env.ROATER + '/#/index',// 分享链接
         link2: window.location.origin + process.env.ROATER + '/#/index',// 分享链接
+        img1:'https://hhcoverbaby.oss-cn-shenzhen.aliyuncs.com/goodsCall-h5/static/images/share.jpg'
       },() =>{
         // 判断是不是最后点击月亮分享
         this.sendDot('B000040101');
@@ -298,7 +298,7 @@ export default {
    dealWidth1(num){
      if(num <= 1000){
        if(!num) return '0%'
-      return (Math.ceil(num * 100 / 2000) >= 5? Math.ceil(num * 100 / 2000) : 5 + '%')
+      return ( (Math.ceil(num * 100 / 2000) >= 5 ? Math.ceil(num * 100 / 2000) : 5) + '%')
      }else if(num >=3000) {
        return '100%'
      } else {
