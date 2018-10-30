@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/goodsCall/*': {
-        target: 'http://swissewx.mama100.cn',
+        target: 'http://www.swisse-china.com.cn',
         secure: false,
         changeOrigin: true,
       }

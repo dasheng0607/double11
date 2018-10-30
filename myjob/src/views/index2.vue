@@ -112,10 +112,24 @@ export default {
     endData:'',
     tdata:'',
     btnclose: true,
-    isOver:false
+    isOver:false,
+    url:''
     };
   },
   created() {
+    try {
+      let url = window.location.origin + process.env.ROATER + '/#/index?tar=1';
+      for (const key in this.$route.query) {
+        if(typeof(this.$route.query[key]) == 'object'){
+          url += ('&' + key + '=' + this.$route.query[key][0]);
+        } else {
+          url += ('&' + key + '=' + this.$route.query[key]);
+        }
+      }
+    this.url = url
+    } catch (error) {
+      this.url = window.location.href;
+    }
     this.show2 = true;
     axios
     .post(
@@ -125,7 +139,7 @@ export default {
         customerId: window.customerId,
         headImageUrl: window.user.headimgurl || 'http://www.swisse-china.com.cn/swisse-wmall/activityDemo/shoppingGuide/index.html?_campaign=20181015095645_11590',
         nickName: window.user.nickname || 'test',
-        link: window.location.href
+        link: this.url
       })
     )
     .then((data) => {
@@ -153,9 +167,9 @@ export default {
         title1: 'Swisse嗨购预热 | Pick出心头好 邀好友一起砍出11.11低价', // 分享标题
         title2: '在吗？可否接过这把刀！', // 分享标题
         desc2: 'Pick出你的心头好 和我一起砍价11.11低价', //分享描述
-        link1:  window.location.href,
-        link2:  window.location.href,
-        img1:'https://hhcoverbaby.oss-cn-shenzhen.aliyuncs.com/goodsCall-h5/static/images/share.jpg'
+        link1:  this.url,
+        link2:  this.url,
+        img1:'https://hhcoverbaby.oss-cn-shenzhen.aliyuncs.com/goodsCall-h5/static/images/share.jpg',
       },() =>{
         // 判断是不是最后点击月亮分享
         this.sendDot('B000040101');
@@ -179,8 +193,9 @@ export default {
           this.endData = Date.parse(new Date(tarTime));
           if( (new Date()).getTime() >= this.endData){
             this.isOver = true;
+          } else {
+            setInterval(this.getDate,1000);
           }
-          setInterval(this.getDate,1000);
           this.list = data.data.data.productList.map((ele) =>{
             if(ele.state){
               ele.actualPopularity +=1;
@@ -218,6 +233,7 @@ export default {
           })
         })
         .catch(function (error) {
+          this.show2 =false;
           console.log(error);
         });
     },
@@ -245,12 +261,12 @@ export default {
     toUrl(url,num){
       if(!url) return;
       let tarUrl = url;
-      if(this.$route.query.assisAccount) tarUrl += ('&assisAccount=' + this.$route.query.assisAccount);
-      if(this.$route.query.termCode) tarUrl += ('&termCode=' + this.$route.query.termCode);
-      if(this.$route.query.guiderSourceSystem) tarUrl += ('&guiderSourceSystem=' + this.$route.query.guiderSourceSystem);
-      if(this.$route.query.guiderSourceBusiness) tarUrl += ('&guiderSourceBusiness=' + this.$route.query.guiderSourceBusiness);
-      if(this.$route.query.guiderBusinessId) tarUrl += ('&guiderBusinessId=' + this.$route.query.guiderBusinessId);
-      if(this.$route.query.fromSubsystem) tarUrl += ('&fromSubsystem=' + this.$route.query.fromSubsystem);
+      if(this.$route.query.assisAccount) tarUrl += ('&assisAccount=' + (typeof(this.$route.query.assisAccount) == 'object' ?  this.$route.query.assisAccount[0] : this.$route.query.assisAccount));
+      if(this.$route.query.termCode) tarUrl += ('&termCode=' + (typeof(this.$route.query.termCode) == 'object' ?  this.$route.query.termCode[0] : this.$route.query.termCode));
+      if(this.$route.query.guiderSourceSystem) tarUrl += ('&guiderSourceSystem=' + (typeof(this.$route.query.guiderSourceSystem) == 'object' ?  this.$route.query.guiderSourceSystem[0] : this.$route.query.guiderSourceSystem));
+      if(this.$route.query.guiderSourceBusiness) tarUrl += ('&guiderSourceBusiness=' + (typeof(this.$route.query.guiderSourceBusiness) == 'object' ?  this.$route.query.guiderSourceBusiness[0] : this.$route.query.guiderSourceBusiness));
+      if(this.$route.query.guiderBusinessId) tarUrl += ('&guiderBusinessId=' + (typeof(this.$route.query.guiderBusinessId) == 'object' ?  this.$route.query.guiderBusinessId[0] : this.$route.query.guiderBusinessId));
+      if(this.$route.query.fromSubsystem) tarUrl += ('&fromSubsystem=' + (typeof(this.$route.query.fromSubsystem) == 'object' ?  this.$route.query.fromSubsystem[0] : this.$route.query.fromSubsystem));
       if(num ==1){
         this.sendDot('B000040122',function(){window.location.href = tarUrl;})
       } else {
@@ -259,12 +275,12 @@ export default {
     },
     toNews(url){
       let tarUrl = url;
-      if(this.$route.query.assisAccount) tarUrl += ('&assisAccount=' + this.$route.query.assisAccount);
-      if(this.$route.query.termCode) tarUrl += ('&termCode=' + this.$route.query.termCode);
-      if(this.$route.query.guiderSourceSystem) tarUrl += ('&guiderSourceSystem=' + this.$route.query.guiderSourceSystem);
-      if(this.$route.query.guiderSourceBusiness) tarUrl += ('&guiderSourceBusiness=' + this.$route.query.guiderSourceBusiness);
-      if(this.$route.query.guiderBusinessId) tarUrl += ('&guiderBusinessId=' + this.$route.query.guiderBusinessId);
-      if(this.$route.query.fromSubsystem) tarUrl += ('&fromSubsystem=' + this.$route.query.fromSubsystem);
+      if(this.$route.query.assisAccount) tarUrl += ('&assisAccount=' + (typeof(this.$route.query.assisAccount) == 'object' ?  this.$route.query.assisAccount[0] : this.$route.query.assisAccount));
+      if(this.$route.query.termCode) tarUrl += ('&termCode=' + (typeof(this.$route.query.termCode) == 'object' ?  this.$route.query.termCode[0] : this.$route.query.termCode));
+      if(this.$route.query.guiderSourceSystem) tarUrl += ('&guiderSourceSystem=' + (typeof(this.$route.query.guiderSourceSystem) == 'object' ?  this.$route.query.guiderSourceSystem[0] : this.$route.query.guiderSourceSystem));
+      if(this.$route.query.guiderSourceBusiness) tarUrl += ('&guiderSourceBusiness=' + (typeof(this.$route.query.guiderSourceBusiness) == 'object' ?  this.$route.query.guiderSourceBusiness[0] : this.$route.query.guiderSourceBusiness));
+      if(this.$route.query.guiderBusinessId) tarUrl += ('&guiderBusinessId=' + (typeof(this.$route.query.guiderBusinessId) == 'object' ?  this.$route.query.guiderBusinessId[0] : this.$route.query.guiderBusinessId));
+      if(this.$route.query.fromSubsystem) tarUrl += ('&fromSubsystem=' + (typeof(this.$route.query.fromSubsystem) == 'object' ?  this.$route.query.fromSubsystem[0] : this.$route.query.fromSubsystem));
       localStorage.setItem("scroll",document.documentElement.scrollTop);
       window.location.href = tarUrl;
     },

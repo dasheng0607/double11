@@ -45,7 +45,7 @@ export default {
                     title: obj.title2 , // 分享标题
                     desc: obj.desc2, // 分享描述
                     link: obj.link2, // 分享链接
-                    imgUrl: obj.img2 || window.user.headimgurl, // 分享图标
+                    imgUrl: window.user.headimgurl, // 分享图标
                     success() {
                         suc && suc();
                     },
