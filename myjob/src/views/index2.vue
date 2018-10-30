@@ -62,8 +62,9 @@
               ￥{{item.priceList[1].prices}}
             </div>
           </div>
-          <div class="isclick to-click" v-if="!item.state" @click="cutOne(item,index)"></div>
-          <div class="isclick no-click"  v-else></div>
+          <div class="isclick to-click" v-show="!isOver" v-if="!item.state" @click="cutOne(item,index)"></div>
+          <div class="isclick no-click"  v-show="!isOver" v-else></div> 
+          <div class="isclick no-click over" v-show="isOver"></div> 
         </div>
         <div class="to-top" @click="toTop">回到顶部</div>
         <!-- <p style="font-size:12px;">测试数据(会删除)
@@ -110,7 +111,8 @@ export default {
     newGiftLink:'',
     endData:'',
     tdata:'',
-    btnclose: true
+    btnclose: true,
+    isOver:false
     };
   },
   created() {
@@ -151,8 +153,8 @@ export default {
         title1: 'Swisse嗨购预热 | Pick出心头好 邀好友一起砍出11.11低价', // 分享标题
         title2: '在吗？可否接过这把刀！', // 分享标题
         desc2: 'Pick出你的心头好 和我一起砍价11.11低价', //分享描述
-        link1: window.location.origin + process.env.ROATER + '/#/index',// 分享链接
-        link2: window.location.origin + process.env.ROATER + '/#/index',// 分享链接
+        link1:  window.location.href,
+        link2:  window.location.href,
         img1:'https://hhcoverbaby.oss-cn-shenzhen.aliyuncs.com/goodsCall-h5/static/images/share.jpg'
       },() =>{
         // 判断是不是最后点击月亮分享
@@ -175,6 +177,9 @@ export default {
           let tarTime = data.data.data.endStr.split('-').join('/');
           this.tdata = tarTime;
           this.endData = Date.parse(new Date(tarTime));
+          if( (new Date()).getTime() >= this.endData){
+            this.isOver = true;
+          }
           setInterval(this.getDate,1000);
           this.list = data.data.data.productList.map((ele) =>{
             if(ele.state){
@@ -659,6 +664,11 @@ export default {
 }
 .to-click {
    background: url("../../static/images/no-click.png") left top no-repeat;
+  background-size: 6.18rem 0.55rem;
+}
+
+.over{
+  background: url("../../static/images/over-click.png") left top no-repeat;
   background-size: 6.18rem 0.55rem;
 }
 .to-top{
